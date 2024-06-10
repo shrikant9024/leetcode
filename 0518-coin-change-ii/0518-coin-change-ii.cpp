@@ -25,7 +25,21 @@ public:
     }
     int change(int amount, vector<int>& coins) {
         int n = coins.size();
-        vector<vector<int>> dp(n,vector<int>(amount+1,-1));
-        return f(n-1,amount,coins,dp);
+        vector<vector<int>> dp(n,vector<int>(amount+1,0));
+        for(int T=0;T<=amount;T++) {
+           dp[0][T] = (T%coins[0]==0);
+        }
+        
+        for(int i =1;i<n;i++){
+            for(int D = 0;D<=amount;D++){
+                
+                int notpick = dp[i-1][D];
+        
+                int pick  = 0;
+                if(D>=coins[i]) pick = dp[i][D-coins[i]];
+                dp[i][D] = pick+notpick;
+        }
+    }
+        return dp[n-1][amount];
     }
 };
