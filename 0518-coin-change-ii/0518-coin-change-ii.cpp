@@ -25,21 +25,22 @@ public:
     }
     int change(int amount, vector<int>& coins) {
         int n = coins.size();
-        vector<vector<int>> dp(n,vector<int>(amount+1,0));
+        vector<int> prev(amount+1,0),cur(amount+1,0);
         for(int T=0;T<=amount;T++) {
-           dp[0][T] = (T%coins[0]==0);
+           prev[T] = (T%coins[0]==0);
         }
         
         for(int i =1;i<n;i++){
             for(int D = 0;D<=amount;D++){
                 
-                int notpick = dp[i-1][D];
+                int notpick = prev[D];
         
                 int pick  = 0;
-                if(D>=coins[i]) pick = dp[i][D-coins[i]];
-                dp[i][D] = pick+notpick;
+                if(D>=coins[i]) pick = cur[D-coins[i]];
+                cur[D] = pick+notpick;
         }
+            prev = cur;
     }
-        return dp[n-1][amount];
+        return prev[amount];
     }
 };
