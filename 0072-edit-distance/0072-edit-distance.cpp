@@ -21,7 +21,7 @@ public:
         
         int m = word1.size();
         int n = word2.size();
-        vector<vector<int>> dp(m,vector<int>(n,-1));
+        vector<vector<int>> dp(m+1,vector<int>(n+1,-1));
         return f(m-1,n-1,word1,word2,dp);
     }
 };
