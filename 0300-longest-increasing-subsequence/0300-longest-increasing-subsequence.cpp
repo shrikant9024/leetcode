@@ -1,29 +1,18 @@
 class Solution {
 public:
-    int f(int i, int prev, vector<int>& nums, vector<vector<int>>& dp) {
-        // base case
-        int n = nums.size();
-        if (i == n) return 0;
-        
-        // Adjust prev to be in the range of [0, n] for dp indexing
-        int adjustedPrev = prev + 1;
-
-        if (dp[i][adjustedPrev] != -1) return dp[i][adjustedPrev];
-
-        // not pick
-        int len = f(i + 1, prev, nums, dp);
-
-        // pick
-        if (prev == -1 || nums[i] > nums[prev]) {
-            len = max(len, 1 + f(i + 1, i, nums, dp));
-        }
-
-        return dp[i][adjustedPrev] = len;
-    }
-
     int lengthOfLIS(vector<int>& nums) {
         int n = nums.size();
-        vector<vector<int>> dp(n, vector<int>(n + 1, -1));  // Adjusted size for dp array
-        return f(0, -1, nums, dp);
+        vector<vector<int>>dp(n+1,vector<int>(n+1,0));
+        for(int i = n-1;i>=0;i--){
+            for(int prev = i-1;prev>=-1;prev--){
+                
+                int len = dp[i+1][prev+1];
+                if(prev==-1 || nums[prev]<nums[i]){
+                    len = max(len,1+ dp[i+1][i+1]);
+                }
+                dp[i][prev+1] = len;
+            }
+        }
+        return dp[0][0];
     }
 };
