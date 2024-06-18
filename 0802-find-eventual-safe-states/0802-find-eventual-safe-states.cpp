@@ -2,7 +2,7 @@ class Solution {
 public:
     vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
         int V = graph.size();
-        unordered_map<int, vector<int>> adjRev;
+        vector<vector<int>> adjRev(V);
         vector<int> indegree(V,0);
         queue<int> q;
         vector<int> res;
